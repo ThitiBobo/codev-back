@@ -1,4 +1,4 @@
-package com.polytech.codev.payloads.requests;
+package com.polytech.codev.payload.request;
 
 import javax.validation.constraints.NotBlank;
 

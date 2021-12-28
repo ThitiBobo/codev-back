@@ -1,6 +1,6 @@
-package com.polytech.codev.repositories;
+package com.polytech.codev.repositorie;
 
-import com.polytech.codev.models.User;
+import com.polytech.codev.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

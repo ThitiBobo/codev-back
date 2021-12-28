@@ -1,7 +1,7 @@
 package com.polytech.codev.security.services;
 
-import com.polytech.codev.models.User;
-import com.polytech.codev.repositories.UserRepository;
+import com.polytech.codev.model.User;
+import com.polytech.codev.repositorie.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

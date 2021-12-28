@@ -1,4 +1,4 @@
-package com.polytech.codev.controllers;
+package com.polytech.codev.controller;
 
 import com.polytech.codev.appels.AppelApi;
 import org.springframework.web.bind.annotation.*;

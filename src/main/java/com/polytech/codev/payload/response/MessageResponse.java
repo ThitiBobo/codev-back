@@ -1,4 +1,4 @@
-package com.polytech.codev.payloads.responses;
+package com.polytech.codev.payload.response;
 
 public class MessageResponse {
     private String message;

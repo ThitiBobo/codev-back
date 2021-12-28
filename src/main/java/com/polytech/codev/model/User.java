@@ -1,4 +1,4 @@
-package com.polytech.codev.models;
+package com.polytech.codev.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
