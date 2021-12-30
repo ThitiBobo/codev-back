@@ -6,9 +6,6 @@ SET time_zone = "+00:00";
 INSERT INTO `users` (`id`, `username`, `email`, `password`) VALUES (1, 'admin', 'admin@mail.com', '$2y$10$YHIMRg5NeTjxRsaddhniBu.AKEbmPVWUiW7HyShZ2p9DNxvDnPogW');
 INSERT INTO `users` (`id`, `username`, `email`, `password`) VALUES (2, 'thiti', 'thiti@mail.com', '$2a$04$1zyF3Uu.ZDMZuICCKcw1WO0zoHnDRMnL.v7yAm881jYEF5NOQR58.');
 
--- PROFILE
-INSERT INTO `profiles` (`id`, `user_id`) VALUES (1, 2);
-
 -- METROPOLIS
 INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('200054781',0,0,'Métropole du Grand Paris');
 INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('244400404',0,0,'Nantes Métropole');
@@ -31,6 +28,11 @@ INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('24
 INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('244500468',0,0,'Orléans Métropole');
 INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('246300701',0,0,'Clermont Auvergne Métropole');
 INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('248300543',0,0,'Métropole Toulon-Provence-Méditerranée');
+
+
+
+-- PROFILE
+INSERT INTO `profiles` (`id`, `user_id`) VALUES (1, 2);
 
 -- PREFERENCES
 -- 3:Lyon  13:Normandie ?

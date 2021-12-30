@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/map")
+@RequestMapping("/metropolis")
 public class MetropolisController {
 
     private final MetropolisService service;

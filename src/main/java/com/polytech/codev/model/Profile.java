@@ -13,15 +13,16 @@ public class Profile {
     private Long id;
 
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = true)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    // TODO a changer
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = true)
     private User user;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "profile_metropolises",
             joinColumns = @JoinColumn(name = "profile_id"),
             inverseJoinColumns = @JoinColumn(name = "metropolis_id"))
-    private Set<Metropolis> categories = new HashSet<>();
+    private Set<Metropolis> metropolises = new HashSet<>();
 
     public Profile() {}
 
@@ -33,13 +34,13 @@ public class Profile {
         this.id = id;
     }
 
-    public Set<Metropolis> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Set<Metropolis> categories) {
-        this.categories = categories;
-    }
+//    public Set<Metropolis>  getMetropolises() {
+//        return metropolises;
+//    }
+//
+//    public void setMetropolises(Set<Metropolis> metropolises) {
+//        this.metropolises = metropolises;
+//    }
 
     public User getUser() {
         return user;
