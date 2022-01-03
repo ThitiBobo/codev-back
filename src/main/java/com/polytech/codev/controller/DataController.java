@@ -1,13 +1,24 @@
 package com.polytech.codev.controller;
 
 import com.polytech.codev.appels.AppelApi;
+import com.polytech.codev.model.Data;
 import com.polytech.codev.payload.response.MessageResponse;
+import com.polytech.codev.service.DataService;
+import com.polytech.codev.service.MetropolisService;
+import org.json.JSONException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import com.google.gson.Gson;
+
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
+import java.util.List;
+
 import com.google.gson.reflect.TypeToken;
 
 
@@ -16,12 +27,25 @@ import com.google.gson.reflect.TypeToken;
 @RequestMapping("/data")
 public class DataController {
 
+    private final DataService service;
+
+    @Autowired
+    public DataController(DataService service) {
+        this.service = service;
+    }
+
     @GetMapping()
-    public Object listConsumption(){
+    public List<Data> listConsumption(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken))
-            return new MessageResponse("coucou " + auth.getName());
-        return new MessageResponse("fuck off");
+        if (!(auth instanceof AnonymousAuthenticationToken)){
+
+        }
+        try {
+            return this.service.listConsumption();
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @GetMapping("/{id}")

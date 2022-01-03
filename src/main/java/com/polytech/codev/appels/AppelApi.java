@@ -24,11 +24,9 @@ public class AppelApi {
 
         if(responsecode == 200) {
             Scanner scanner = new Scanner(url.openStream());
-
             while (scanner.hasNext()) {
                 data += scanner.nextLine();
             }
-
             scanner.close();
         }
 
