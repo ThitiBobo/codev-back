@@ -1,6 +1,8 @@
 package com.polytech.codev.model;
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Data {
@@ -13,17 +15,14 @@ public class Data {
 
     private Date date_hour;
 
-    private Date date;
 
-    private Date hour;
+    public Data(){}
 
-    public Data(String code, String metropolis, Double consumption, Date date_hour, Date date, Date hour) {
+    public Data(String code, String metropolis, Double consumption, Date date_hour) {
         this.code = code;
         this.metropolis = metropolis;
         this.consumption = consumption;
         this.date_hour = date_hour;
-        this.date = date;
-        this.hour = hour;
     }
 
     public String getCode() {
@@ -58,19 +57,14 @@ public class Data {
         this.date_hour = date_hour;
     }
 
-    public Date getDate() {
-        return date;
+    public String getDate() {
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        return dateFormat.format(date_hour);
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public String getHour() {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        return dateFormat.format(date_hour);
     }
 
-    public Date getHour() {
-        return hour;
-    }
-
-    public void setHour(Date hour) {
-        this.hour = hour;
-    }
 }
