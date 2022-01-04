@@ -1,28 +1,26 @@
 package com.polytech.codev.controller;
 
-import com.polytech.codev.appels.AppelApi;
 import com.polytech.codev.model.Data;
+import com.polytech.codev.model.DataDetail;
+import com.polytech.codev.model.Metropolis;
 import com.polytech.codev.payload.response.DataResponse;
-import com.polytech.codev.payload.response.MessageResponse;
+import com.polytech.codev.security.services.UserDetailsImpl;
 import com.polytech.codev.service.DataService;
-import com.polytech.codev.service.MetropolisService;
+import com.polytech.codev.service.ProfileService;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.net.MalformedURLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gson.reflect.TypeToken;
 
 
 @RestController
@@ -31,10 +29,12 @@ import com.google.gson.reflect.TypeToken;
 public class DataController {
 
     private final DataService service;
+    private final ProfileService profileService;
 
     @Autowired
-    public DataController(DataService service) {
+    public DataController(DataService service, ProfileService profileService) {
         this.service = service;
+        this.profileService = profileService;
     }
 
     @GetMapping()
@@ -48,7 +48,17 @@ public class DataController {
             e.printStackTrace();
         }
         if (!(auth instanceof AnonymousAuthenticationToken)){
-            //TODO
+            Long user_id = getAuthUserId();
+            if (user_id != null){
+                List<Metropolis> preferences = this.profileService.listPreferences(user_id);
+                for (Metropolis preference: preferences){
+                    Data d = data.stream().filter(o -> o.getCode().equals(preference.getCode())).findFirst().orElse(null);
+                    if (d != null){
+                        response.addPreferenceData(d);
+                        data.remove(d);
+                    }
+                }
+            }
         }
 
         // set up most recent consumption
@@ -70,16 +80,34 @@ public class DataController {
         Data data = null;
         try {
             data = this.service.getConsumption(String.valueOf(id));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
         return data;
     }
 
     @GetMapping("/period/{id}")
-    public Object getConsumptionPeriod(@PathVariable long id) {
+    public Object getConsumptionPeriod(
+            @PathVariable long id,
+            @RequestParam("start") String start,
+            @RequestParam("end") String end) {
+
+        LocalDateTime defaultStartDate = LocalDateTime.now().minusDays(7);
+        LocalDateTime startDate = (start != null) ? LocalDateTime.parse(start) : defaultStartDate;
+        LocalDateTime endDate = (end != null) ? LocalDateTime.parse(end) : null;
+
+        DataDetail data = (endDate != null) ?
+                this.service.getConsumptionPeriod(startDate.toString(), endDate.toString()) :
+                this.service.getConsumptionPeriod(startDate.toString());
+        return data;
+    }
+
+    private Long getAuthUserId(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.isAuthenticated()){
+            Object principal = auth.getPrincipal();
+            return (principal instanceof UserDetailsImpl)? ((UserDetailsImpl)principal).getId() : null;
+        }
         return null;
     }
 }

@@ -29,8 +29,8 @@ public class ProfileService {
         this.metropolisRepository = metropolisRepository;
     }
 
-    public List<Metropolis> listPreferences(Long id){
-        return this.repository.listPreferences(id).orElseThrow( () -> new EntityNotFoundException());
+    public List<Metropolis> listPreferences(Long user_id){
+        return this.repository.listPreferences(user_id).orElseThrow( () -> new EntityNotFoundException());
     }
 
     public List<Metropolis> createPreference(Long user_id, ProfileMetropolise preference) {

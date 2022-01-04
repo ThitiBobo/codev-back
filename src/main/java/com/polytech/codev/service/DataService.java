@@ -4,10 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.polytech.codev.model.Data;
 import com.polytech.codev.model.DataDetail;
+import com.polytech.codev.model.Metropolis;
+import com.polytech.codev.repositorie.MetropolisRepository;
 import com.polytech.codev.util.ElectricityURLBuilder;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,15 +22,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import com.polytech.codev.model.api.Record;
 
 @Service
 public class DataService {
+
+    private final MetropolisRepository metropolisRepository;
+
+    @Autowired
+    public DataService(MetropolisRepository metropolisRepository) {
+        this.metropolisRepository = metropolisRepository;
+    }
 
     public Data getConsumption(String metropolisCode) throws IOException, JSONException {
         ElectricityURLBuilder builder = new ElectricityURLBuilder();
@@ -61,7 +68,7 @@ public class DataService {
         int page = 0;
         int rows = 21;
 
-        while (codeMetropolis.size() != 21 && page < 4) {
+        while (codeMetropolis.size() < 20 && page < 3 ) {
             ElectricityURLBuilder builder = new ElectricityURLBuilder();
             builder.setQuery("consommation>=0");
             builder.setRows(rows).setStart(page * 21).setSort("date_heure");
@@ -97,12 +104,26 @@ public class DataService {
             }
         });
 
+        if (codeMetropolis.size() != 21){
+            List<Metropolis> metropolises = this.metropolisRepository.findAll();
+            Iterator iterator = metropolises.iterator();
+            while (iterator.hasNext() && codeMetropolis.size() < 21){
+                String code = ((Metropolis)iterator.next()).getCode();
+                if(codeMetropolis.contains(code)){
+                    data.add(this.getConsumption(code));
+                    codeMetropolis.add(code);
+                }
+            }
+        }
+
+        data.sort(Comparator.comparing(Data::getDate_hour).reversed());
         return data;
     }
 
     public DataDetail getConsumptionPeriod(String start, String end){
         // query = consommation>=0 AND libelle_metropole:"Métropole du Grand Nancy" AND date_heure>="2021-12-03T16:15:00.000+00:00"
         // query = date_heure>="2022-01-03T14:00:00+00:00" AND libelle_metropole:"Métropole du Grand Nancy"
+        // date_heure = 2021-12-29
         return null;
     }
 
