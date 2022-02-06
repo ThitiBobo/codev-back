@@ -10,11 +10,11 @@ public class ProfileMetropolise {
 
     public static class ProfileMetropolisId implements Serializable{
         @Id
-        @Column(name="profile_id")
+        @Column(name = "profile_id")
         private Long profileId;
 
         @Id
-        @Column(name="metropolis_id")
+        @Column(name = "metropolis_id")
         private Long metropolisId;
 
         public ProfileMetropolisId(){}

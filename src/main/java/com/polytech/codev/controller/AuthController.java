@@ -7,7 +7,7 @@ import com.polytech.codev.payload.request.SignupRequest;
 import com.polytech.codev.payload.response.MessageResponse;
 import com.polytech.codev.payload.response.JwtResponse;
 import com.polytech.codev.model.User;
-import com.polytech.codev.repositorie.UserRepository;
+import com.polytech.codev.repository.UserRepository;
 import com.polytech.codev.security.jwt.JwtUtils;
 import com.polytech.codev.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;

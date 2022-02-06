@@ -86,20 +86,30 @@ public class DataController {
         return data;
     }
 
-    @GetMapping("/period/{id}")
-    public Object getConsumptionPeriod(
+    @GetMapping("/{id}/period")
+    public DataDetail getConsumptionPeriod(
             @PathVariable long id,
-            @RequestParam("start") String start,
-            @RequestParam("end") String end) {
+            @RequestParam(required = false) String start,
+            @RequestParam(required = false) String end,
+            @RequestParam(required = false) int number) {
 
         LocalDateTime defaultStartDate = LocalDateTime.now().minusDays(7);
         LocalDateTime startDate = (start != null) ? LocalDateTime.parse(start) : defaultStartDate;
-        LocalDateTime endDate = (end != null) ? LocalDateTime.parse(end) : null;
+        LocalDateTime endDate = (end != null) ? LocalDateTime.parse(end) : LocalDateTime.now();
 
-        DataDetail data = (endDate != null) ?
-                this.service.getConsumptionPeriod(startDate.toString(), endDate.toString()) :
-                this.service.getConsumptionPeriod(startDate.toString());
-        return data;
+        String f = startDate.toString();
+
+        Data data = this.getConsumption(id);
+
+        DataDetail dataDetail = (endDate != null) ?
+                this.service.getConsumptionPeriod(id, number, startDate.toString(), endDate.toString()) :
+                this.service.getConsumptionPeriod(id, number, startDate.toString());
+
+        dataDetail.setCode(data.getCode());
+        dataDetail.setConsumption(data.getConsumption());
+        dataDetail.setDate_hour(data.getDate_hour());
+        dataDetail.setMetropolis(data.getMetropolis());
+        return dataDetail;
     }
 
     private Long getAuthUserId(){

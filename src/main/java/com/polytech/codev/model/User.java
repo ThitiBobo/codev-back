@@ -29,6 +29,9 @@ public class User {
     @Size(max = 120)
     private String password;
 
+    @JsonIgnore
+    private String comment;
+
     public User() {}
 
     public User(String username, String email, String password) {
@@ -69,5 +72,12 @@ public class User {
         this.password = password;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }
 

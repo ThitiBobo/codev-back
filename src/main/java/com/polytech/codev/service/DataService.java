@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.polytech.codev.model.Data;
 import com.polytech.codev.model.DataDetail;
 import com.polytech.codev.model.Metropolis;
-import com.polytech.codev.repositorie.MetropolisRepository;
+import com.polytech.codev.repository.MetropolisRepository;
 import com.polytech.codev.util.ElectricityURLBuilder;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,11 +17,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import com.polytech.codev.model.api.Record;
@@ -120,15 +117,63 @@ public class DataService {
         return data;
     }
 
-    public DataDetail getConsumptionPeriod(String start, String end){
+    public DataDetail getConsumptionPeriod(long code, int number, String start, String end){
         // query = consommation>=0 AND libelle_metropole:"Métropole du Grand Nancy" AND date_heure>="2021-12-03T16:15:00.000+00:00"
         // query = date_heure>="2022-01-03T14:00:00+00:00" AND libelle_metropole:"Métropole du Grand Nancy"
         // date_heure = 2021-12-29
-        return null;
+
+        DataDetail data = new DataDetail();
+        Map<Date, Double> values = new LinkedHashMap<>();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        StringBuilder builder = new StringBuilder();
+        builder.append("consommation>=0 & code_insee_epci:").append(code);
+        builder.append("& date_heure>=\"").append(start).append('"');
+        builder.append("& date_heure<=\"").append(end).append('"');
+
+        ElectricityURLBuilder electricityURLBuilder = new ElectricityURLBuilder();
+        electricityURLBuilder.setQuery(builder.toString());
+        electricityURLBuilder.setRows(number);
+
+        URL url = null;
+        try {
+            url = electricityURLBuilder.getURL();
+            System.out.println(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        JSONObject json = null;
+        try {
+            json = new JSONObject(this.urlGet(url));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Gson gson = new GsonBuilder().create();
+            JSONArray records = json.getJSONArray("records");
+            SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
+            for (int i = 0; i < records.length(); i++) {
+                try {
+                    Date date = dateTimeFormatter.parse(records.getJSONObject(i).getJSONObject("fields").get("date_heure").toString());
+                    Double val = Double.valueOf(records.getJSONObject(i).getJSONObject("fields").get("consommation").toString());
+                    values.put(date, val);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        data.setHistoric(values);
+        return data;
     }
 
-    public DataDetail getConsumptionPeriod(String start){
-        return this.getConsumptionPeriod(start, null);
+    public DataDetail getConsumptionPeriod(long id, int number, String start){
+        return this.getConsumptionPeriod(id, number, start, null);
     }
 
     private String urlGet(URL url) throws IOException {

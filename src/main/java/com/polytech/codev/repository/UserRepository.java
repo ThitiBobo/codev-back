@@ -1,4 +1,4 @@
-package com.polytech.codev.repositorie;
+package com.polytech.codev.repository;
 
 import com.polytech.codev.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

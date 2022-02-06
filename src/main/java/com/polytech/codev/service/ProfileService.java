@@ -3,9 +3,9 @@ package com.polytech.codev.service;
 import com.polytech.codev.model.Metropolis;
 import com.polytech.codev.model.Profile;
 import com.polytech.codev.model.ProfileMetropolise;
-import com.polytech.codev.repositorie.MetropolisRepository;
-import com.polytech.codev.repositorie.ProfileMetropolisRepository;
-import com.polytech.codev.repositorie.ProfileRepository;
+import com.polytech.codev.repository.MetropolisRepository;
+import com.polytech.codev.repository.ProfileMetropolisRepository;
+import com.polytech.codev.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
