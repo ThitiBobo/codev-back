@@ -4,27 +4,27 @@ import java.util.*;
 
 public class DataDetail extends Data{
 
-    private Map<Date,Double> historic;
+    private List<Consumption> historic;
 
     public DataDetail() {
         super();
-        this.historic = new HashMap<>();
+        this.historic = new ArrayList<>();
     }
 
-    public DataDetail(String code,
-                      String metropolis,
-                      Double consumption,
-                      Date date_hour,
-                      Map<Date, Double> historic) {
+    public DataDetail(List<Consumption> historic) {
+        this.historic = historic;
+    }
+
+    public DataDetail(String code, String metropolis, Double consumption, Date date_hour, List<Consumption> historic) {
         super(code, metropolis, consumption, date_hour);
         this.historic = historic;
     }
 
-    public Map<Date, Double> getHistoric() {
+    public List<Consumption> getHistoric() {
         return historic;
     }
 
-    public void setHistoric(Map<Date, Double> historic) {
+    public void setHistoric(List<Consumption> historic) {
         this.historic = historic;
     }
 }

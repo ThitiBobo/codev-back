@@ -2,6 +2,7 @@ package com.polytech.codev.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.polytech.codev.model.Consumption;
 import com.polytech.codev.model.Data;
 import com.polytech.codev.model.DataDetail;
 import com.polytech.codev.model.Metropolis;
@@ -123,7 +124,7 @@ public class DataService {
         // date_heure = 2021-12-29
 
         DataDetail data = new DataDetail();
-        Map<Date, Double> values = new LinkedHashMap<>();
+        List<Consumption> values = new ArrayList<>();
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         StringBuilder builder = new StringBuilder();
@@ -159,7 +160,7 @@ public class DataService {
                 try {
                     Date date = dateTimeFormatter.parse(records.getJSONObject(i).getJSONObject("fields").get("date_heure").toString());
                     Double val = Double.valueOf(records.getJSONObject(i).getJSONObject("fields").get("consommation").toString());
-                    values.put(date, val);
+                    values.add(new Consumption(date, val));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
