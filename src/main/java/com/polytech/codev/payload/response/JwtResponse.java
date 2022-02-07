@@ -2,31 +2,19 @@ package com.polytech.codev.payload.response;
 
 public class JwtResponse {
     private Long id;
-    private String username;
     private String email;
+    private String firstname;
+    private String lastname;
+
     private String token;
     private String tokenType = "Bearer";
 
-    public JwtResponse(String accessToken, Long id, String username, String email) {
-        this.token = accessToken;
+    public JwtResponse(Long id, String email, String firstname, String lastname, String token, String tokenType) {
         this.id = id;
-        this.username = username;
         this.email = email;
-    }
-
-    public String getAccessToken() {
-        return token;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.token = accessToken;
-    }
-
-    public String getTokenType() {
-        return tokenType;
-    }
-
-    public void setTokenType(String tokenType) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.token = token;
         this.tokenType = tokenType;
     }
 
@@ -46,11 +34,35 @@ public class JwtResponse {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getTokenType() {
+        return tokenType;
+    }
+
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
     }
 }

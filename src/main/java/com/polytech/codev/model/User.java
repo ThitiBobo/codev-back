@@ -16,10 +16,6 @@ public class User {
     private Long id;
 
     @NotBlank
-    @Size(max = 20)
-    private String username;
-
-    @NotBlank
     @Size(max = 50)
     @Email
     private String email;
@@ -29,15 +25,19 @@ public class User {
     @Size(max = 120)
     private String password;
 
-    @JsonIgnore
-    private String comment;
+    @Size(max = 50)
+    private String firstname;
+
+    @Size(max = 50)
+    private String lastname;
 
     public User() {}
 
-    public User(String username, String email, String password) {
-        this.username = username;
+    public User(String email, String password, String firstname, String lastname) {
         this.email = email;
         this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
     }
 
     public Long getId() {
@@ -46,14 +46,6 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getEmail() {
@@ -72,12 +64,20 @@ public class User {
         this.password = password;
     }
 
-    public String getComment() {
-        return comment;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 }
 

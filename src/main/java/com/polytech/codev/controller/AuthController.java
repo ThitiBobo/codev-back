@@ -45,22 +45,26 @@ public class AuthController {
 
         loginRequest.getPassword();
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
+        return ResponseEntity.ok(new JwtResponse(
                 userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail()));
+                userDetails.getEmail(),
+                userDetails.getFirstname(),
+                userDetails.getLastname(),
+                jwt,
+                "Bearer"
+        ));
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
@@ -73,12 +77,15 @@ public class AuthController {
         }
 
         // Create new user's account
-        User user = new User(signUpRequest.getUsername(),
+        User user = new User(
                 signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
-
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getFirstname(),
+                signUpRequest.getLastname()
+        );
         userRepository.saveAndFlush(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        LoginRequest request = new LoginRequest(signUpRequest.getEmail(), signUpRequest.getPassword());
+        return this.authenticateUser(request);
     }
 }

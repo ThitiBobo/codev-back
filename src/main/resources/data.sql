@@ -3,8 +3,8 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 -- USER
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `comment`) VALUES (1, 'admin', 'admin@mail.com', '$2y$10$YHIMRg5NeTjxRsaddhniBu.AKEbmPVWUiW7HyShZ2p9DNxvDnPogW', 'mdp: admin');
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `comment`) VALUES (2, 'thiti', 'thiti@mail.com', '$2a$04$1zyF3Uu.ZDMZuICCKcw1WO0zoHnDRMnL.v7yAm881jYEF5NOQR58.', 'mdp: 123');
+INSERT INTO `users` (`id`, `email`, `password`) VALUES (1, 'admin@gmail.com', '$2y$10$YHIMRg5NeTjxRsaddhniBu.AKEbmPVWUiW7HyShZ2p9DNxvDnPogW');
+INSERT INTO `users` (`id`, `email`, `password`) VALUES (2, 'thiti@gmail.com', '$2a$04$1zyF3Uu.ZDMZuICCKcw1WO0zoHnDRMnL.v7yAm881jYEF5NOQR58.');
 
 -- METROPOLIS
 INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('200054781',0,0,'Métropole du Grand Paris');
