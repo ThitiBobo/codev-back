@@ -107,7 +107,7 @@ public class DataService {
             Iterator iterator = metropolises.iterator();
             while (iterator.hasNext() && codeMetropolis.size() < 21){
                 String code = ((Metropolis)iterator.next()).getCode();
-                if(codeMetropolis.contains(code)){
+                if(!codeMetropolis.contains(code)){
                     data.add(this.getConsumption(code));
                     codeMetropolis.add(code);
                 }
