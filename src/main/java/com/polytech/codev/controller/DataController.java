@@ -93,7 +93,7 @@ public class DataController {
             @RequestParam(required = false) String end,
             @RequestParam(required = false) int number) {
 
-        LocalDateTime defaultStartDate = LocalDateTime.now().minusDays(7);
+        LocalDateTime defaultStartDate = LocalDateTime.now().minusHours(12);
         LocalDateTime startDate = (start != null) ? LocalDateTime.parse(start) : defaultStartDate;
         LocalDateTime endDate = (end != null) ? LocalDateTime.parse(end) : LocalDateTime.now();
 

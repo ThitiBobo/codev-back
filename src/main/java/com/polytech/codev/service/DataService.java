@@ -128,9 +128,9 @@ public class DataService {
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         StringBuilder builder = new StringBuilder();
-        builder.append("consommation>=0 & code_insee_epci:").append(code);
-        builder.append("& date_heure>=\"").append(start).append('"');
-        builder.append("& date_heure<=\"").append(end).append('"');
+        builder.append("consommation>=0 AND code_insee_epci:").append(code);
+        builder.append(" AND date_heure>=\"").append(start).append('"');
+        builder.append(" AND date_heure<=\"").append(end).append('"');
 
         ElectricityURLBuilder electricityURLBuilder = new ElectricityURLBuilder();
         electricityURLBuilder.setQuery(builder.toString());
