@@ -2,7 +2,7 @@ package com.polytech.codev.model;
 
 import java.util.Date;
 
-public class Consumption {
+public class Consumption implements Comparable{
 
     private Date date;
 
@@ -27,5 +27,11 @@ public class Consumption {
 
     public void setValue(double value) {
         this.value = value;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Consumption consumption = (Consumption) o;
+        return this.date.compareTo(consumption.date);
     }
 }

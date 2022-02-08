@@ -169,6 +169,7 @@ public class DataService {
             e.printStackTrace();
         }
 
+        Collections.sort(values);
         data.setHistoric(values);
         return data;
     }
