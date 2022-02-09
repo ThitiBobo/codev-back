@@ -4,7 +4,7 @@ SET time_zone = "+00:00";
 
 -- USER
 INSERT INTO `users` (`id`, `email`, `password`) VALUES (1, 'admin@gmail.com', '$2y$10$YHIMRg5NeTjxRsaddhniBu.AKEbmPVWUiW7HyShZ2p9DNxvDnPogW');
-INSERT INTO `users` (`id`, `email`, `password`) VALUES (2, 'thiti@gmail.com', '$2a$04$1zyF3Uu.ZDMZuICCKcw1WO0zoHnDRMnL.v7yAm881jYEF5NOQR58.');
+INSERT INTO `users` (`id`, `email`, `password`, `firstname`, `lastname`) VALUES (2, 'thiti@gmail.com', '$2a$04$1zyF3Uu.ZDMZuICCKcw1WO0zoHnDRMnL.v7yAm881jYEF5NOQR58.', 'thibaut', 'delplanque');
 
 -- METROPOLIS
 INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('200054781',48.85680393333428, 2.3269548007371856,'Métropole du Grand Paris');
