@@ -1,15 +1,19 @@
 package com.polytech.codev.controller;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
+import com.polytech.codev.model.Profile;
 import com.polytech.codev.payload.request.LoginRequest;
 import com.polytech.codev.payload.request.SignupRequest;
 import com.polytech.codev.payload.response.MessageResponse;
 import com.polytech.codev.payload.response.JwtResponse;
 import com.polytech.codev.model.User;
+import com.polytech.codev.repository.ProfileRepository;
 import com.polytech.codev.repository.UserRepository;
 import com.polytech.codev.security.jwt.JwtUtils;
 import com.polytech.codev.security.services.UserDetailsImpl;
+import com.polytech.codev.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/auth")
@@ -33,6 +39,9 @@ public class AuthController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    ProfileRepository profileRepository;
 
     @Autowired
     PasswordEncoder encoder;
@@ -52,8 +61,12 @@ public class AuthController {
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
+        List<Profile> profiles = this.profileRepository.getProfileByUser(userDetails.getId())
+                .orElseThrow(() -> new EntityNotFoundException());
+
         return ResponseEntity.ok(new JwtResponse(
                 userDetails.getId(),
+                profiles.get(0).getId(),
                 userDetails.getEmail(),
                 userDetails.getFirstname(),
                 userDetails.getLastname(),
@@ -84,6 +97,7 @@ public class AuthController {
                 signUpRequest.getLastname()
         );
         userRepository.saveAndFlush(user);
+        profileRepository.saveAndFlush(new Profile(user));
 
         LoginRequest request = new LoginRequest(signUpRequest.getEmail(), signUpRequest.getPassword());
         return this.authenticateUser(request);

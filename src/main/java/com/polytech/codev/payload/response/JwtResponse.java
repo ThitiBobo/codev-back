@@ -2,6 +2,7 @@ package com.polytech.codev.payload.response;
 
 public class JwtResponse {
     private Long id;
+    private Long profileId;
     private String email;
     private String firstname;
     private String lastname;
@@ -9,8 +10,9 @@ public class JwtResponse {
     private String token;
     private String tokenType = "Bearer";
 
-    public JwtResponse(Long id, String email, String firstname, String lastname, String token, String tokenType) {
+    public JwtResponse(Long id, Long profileId, String email, String firstname, String lastname, String token, String tokenType) {
         this.id = id;
+        this.profileId = profileId;
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -64,5 +66,13 @@ public class JwtResponse {
 
     public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
+    }
+
+    public Long getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(Long profileId) {
+        this.profileId = profileId;
     }
 }

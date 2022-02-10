@@ -3,6 +3,7 @@ package com.polytech.codev.controller;
 import com.polytech.codev.model.Metropolis;
 import com.polytech.codev.model.ProfileMetropolise;
 import com.polytech.codev.payload.request.PreferenceRequest;
+import com.polytech.codev.payload.response.MessageResponse;
 import com.polytech.codev.security.services.UserDetailsImpl;
 import com.polytech.codev.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +30,12 @@ public class ProfileController {
 
     @GetMapping("/metropolises")
     @ResponseStatus( HttpStatus.OK )
-    public List<Metropolis> list() {
+    public ResponseEntity<?> list() {
+        if (!this.checkAuth()) return ResponseEntity.status(401).body(new MessageResponse("no authenticated user"));
         Long user_id = getAuthUserId();
-        // TODO return 401 error if no auth user
-        return (user_id != null)? this.service.listPreferences(user_id): null;
+        return (user_id != null)?
+                ResponseEntity.ok().body(this.service.listPreferences(user_id)):
+                ResponseEntity.status(401).body(new MessageResponse("no authenticated user"));
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -40,9 +43,15 @@ public class ProfileController {
     public ResponseEntity<List<Metropolis>> add(@RequestBody PreferenceRequest preference){
         Long user_id = getAuthUserId();
         ProfileMetropolise pref = new ProfileMetropolise(preference.getProfileId(), preference.getMetropolisId());
-        return ResponseEntity.created(null).body(
-                (user_id != null)? this.service.createPreference(user_id, pref): null
-        );
+        try {
+            return ResponseEntity.created(null).body(
+                    (user_id != null)? this.service.createPreference(user_id, pref): null
+            );
+        }catch (Exception e){
+            return ResponseEntity.notFound().build();
+        }
+
+
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -57,9 +66,18 @@ public class ProfileController {
 
     @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/metropolises/{id}")
-    public List<Metropolis> remove(@PathVariable long id){
+    public ResponseEntity<?> remove(@PathVariable long id){
         Long user_id = getAuthUserId();
-        return (user_id != null)? this.service.deletePreference(user_id, id): null;
+        try{
+            return (user_id != null)? ResponseEntity.ok().body(this.service.deletePreference(user_id, id)): null;
+        }catch (Exception e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    private boolean checkAuth(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.isAuthenticated();
     }
 
     private Long getAuthUserId(){

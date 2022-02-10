@@ -26,6 +26,10 @@ public class Profile {
 
     public Profile() {}
 
+    public Profile(User user) {
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }

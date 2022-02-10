@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class ProfileService {
@@ -63,5 +64,9 @@ public class ProfileService {
         if (!Objects.equals(preference.getProfileId(), profiles.get(0).getId()))
             throw new EntityNotFoundException();
         return true;
+    }
+
+    public Metropolis findMetropolisById(long id) {
+        return this.metropolisRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
     }
 }
