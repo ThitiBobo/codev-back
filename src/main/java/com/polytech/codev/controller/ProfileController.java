@@ -7,6 +7,7 @@ import com.polytech.codev.security.services.UserDetailsImpl;
 import com.polytech.codev.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,18 +37,22 @@ public class ProfileController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/metropolises")
-    public List<Metropolis> add(@RequestBody PreferenceRequest preference){
+    public ResponseEntity<List<Metropolis>> add(@RequestBody PreferenceRequest preference){
         Long user_id = getAuthUserId();
         ProfileMetropolise pref = new ProfileMetropolise(preference.getProfileId(), preference.getMetropolisId());
-        return (user_id != null)? this.service.createPreference(user_id, pref): null;
+        return ResponseEntity.created(null).body(
+                (user_id != null)? this.service.createPreference(user_id, pref): null
+        );
     }
 
     @PreAuthorize("isAuthenticated()")
     @PutMapping("/metropolises/{id}")
-    public List<Metropolis> update(@PathVariable long id, @RequestBody PreferenceRequest preference){
+    public ResponseEntity<List<Metropolis>> update(@PathVariable long id, @RequestBody PreferenceRequest preference){
         Long user_id = getAuthUserId();
         ProfileMetropolise pref = new ProfileMetropolise(preference.getProfileId(), preference.getMetropolisId());
-        return (user_id != null)? this.service.updatePreference(user_id, id, pref): null;
+        return ResponseEntity.created(null).body(
+                (user_id != null)? this.service.updatePreference(user_id, id, pref): null
+        );
     }
 
     @PreAuthorize("isAuthenticated()")
