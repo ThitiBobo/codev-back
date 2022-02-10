@@ -12,11 +12,11 @@ INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('24
 INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('200046977',45.76588434959976, 4.847735680426774,'Métropole de Lyon');
 INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('200054807',43.42051165648866, 5.436969983373662,"Métropole d\'Aix-Marseille-Provence");
 INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('245900410',50.63684599615922, 3.0570254290391277,'Métropole Européenne de Lille');
-INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('200030195',43.71880830062325, 7.225344380543387,'Métropole Grenoble-Alpes-Métropole');
-INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('200040715',45.180630585447744, 5.719167035802489,'Métropole Rennes Métropole');
+INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('200040715',45.1849538972223, 5.7124496667840665,'Métropole Grenoble-Alpes-Métropole');
+INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('243500139',48.11524139351814, -1.6800324514541154,'Métropole Rennes Métropole');
 INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('243100518',43.61211739240191, 1.425974243677954,'Toulouse Métropole');
-INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('243500139',48.11077152370971, -1.6802041128350413,'Métropole du Grand Nancy');
-INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('245400676',48.6980691229005, 6.168737143144363,"Métropole Nice Côte d\'Azur");
+INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('245400676',48.688679349849814, 6.180562746013864,'Métropole du Grand Nancy');
+INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('200030195',43.71583062835876, 7.235644063398946,"Métropole Nice Côte d\'Azur");
 INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('243300316',44.853004378868924, -0.5794893484922443,'Bordeaux Métropole');
 INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('243400017',43.620201907885125, 3.865070858582002,'Montpellier Méditerranée Métropole');
 INSERT INTO `metropolises` (`code`, `latitude`, `longitude`, `name`) VALUES ('200023414',49.45060546140958, 1.0925444409808949,'Métropole Rouen Normandie');
